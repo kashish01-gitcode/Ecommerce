@@ -6,6 +6,7 @@ import userRouter from "./routes/userRoute.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 
+console.log("CLIENT_URL =", process.env.CLIENT_URL);
 const app = express();
 const port = process.env.PORT || 4000;
 
@@ -22,6 +23,7 @@ app.use("/api/payment", paymentRoutes);
 app.use("/api/order", orderRoutes);
 app.get("/", (req, res) => {
   res.send("API working ✅");
+  
 });
 
 app.listen(port, () => {

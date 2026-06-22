@@ -3,8 +3,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 
-const createToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
+const createToken = (userId, role) => {
+  return jwt.sign({ id: userId, role }, process.env.JWT_SECRET, {
     expiresIn: "7d",
   });
 };
@@ -37,19 +37,24 @@ const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    // Admin email se register kare toh role admin
+    const role =
+      email === process.env.ADMIN_EMAIL ? "admin" : "user";
+
     const newUser = new userModel({
       name,
       email,
       password: hashedPassword,
+      role,
     });
 
     const user = await newUser.save();
-    const token = createToken(user._id);
+    const token = createToken(user._id, user.role);
 
     res.json({
       success: true,
       token,
-      user: { id: user._id, name: user.name, email: user.email },
+      user: { id: user._id, name: user.name, email: user.email, role: user.role },
     });
   } catch (error) {
     console.error(error);
@@ -76,12 +81,12 @@ const loginUser = async (req, res) => {
       return res.json({ success: false, message: "Invalid credentials" });
     }
 
-    const token = createToken(user._id);
+    const token = createToken(user._id, user.role);
 
     res.json({
       success: true,
       token,
-      user: { id: user._id, name: user.name, email: user.email },
+      user: { id: user._id, name: user.name, email: user.email, role: user.role },
     });
   } catch (error) {
     console.error(error);

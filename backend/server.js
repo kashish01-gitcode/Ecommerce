@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import userRouter from "./routes/userRoute.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 console.log("CLIENT_URL =", process.env.CLIENT_URL);
 const app = express();
@@ -21,6 +22,7 @@ connectDB();
 app.use("/api/user", userRouter);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/order", orderRoutes);
+app.use("/api/admin", adminRoutes);
 app.get("/", (req, res) => {
   res.send("API working ✅");
   

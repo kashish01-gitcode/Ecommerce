@@ -61,6 +61,14 @@ const Navbar = () => {
                 >
                   Orders
                 </p>
+                {JSON.parse(atob(localStorage.getItem("token").split(".")[1])).role === "admin" && (
+                  <p
+                    onClick={() => navigate("/admin")}
+                    className="cursor-pointer hover:text-black"
+                  >
+                    Admin Panel
+                  </p>
+                )}
                 <p onClick={logout} className="cursor-pointer hover:text-black">
                   Logout
                 </p>

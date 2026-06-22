@@ -9,7 +9,7 @@ import {
   addProduct,
   editProduct,
   deleteProduct,
-} from "../controllers/admincontroller.js";
+} from "../controllers/Admincontroller.js";
 
 const router = express.Router();
 

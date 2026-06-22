@@ -31,6 +31,12 @@ const Navbar = () => {
         <NavLink to="/contact">
           <p>CONTACT</p>
         </NavLink>
+
+        {token && (
+          <NavLink to="/orders">
+            <p>ORDERS</p>
+          </NavLink>
+        )}
       </ul>
 
       <div className="flex items-center gap-6">

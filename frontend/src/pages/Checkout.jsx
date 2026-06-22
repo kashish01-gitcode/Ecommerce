@@ -14,20 +14,21 @@ const Checkout = () => {
 
   const handlePayment = async () => {
     try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("Pehle login karo!");
+        return;
+      }
+
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      const userId = payload?.id;
+
       const stripeItems = cartProducts.map((item) => ({
         name: item.name,
         price: item.price,
         quantity: cartItems[item._id],
       }));
-
-      // Order data temporary save
-      localStorage.setItem(
-        "pendingOrder",
-        JSON.stringify({
-          items: stripeItems,
-          amount: total,
-        })
-      );
 
       const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -40,6 +41,8 @@ const Checkout = () => {
           },
           body: JSON.stringify({
             cartItems: stripeItems,
+            userId,
+            amount: total,
           }),
         }
       );

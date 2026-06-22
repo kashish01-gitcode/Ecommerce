@@ -20,7 +20,11 @@ const orderSchema = new mongoose.Schema(
 
     paymentStatus: {
       type: String,
-      default: "Paid",
+      default: "Pending",
+    },
+
+    sessionId: {
+      type: String,
     },
   },
   { timestamps: true }
